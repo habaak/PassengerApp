@@ -8,15 +8,9 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login'
 import { SignupPage } from '../pages/signup/signup'
 
-import * as firebase from 'firebase';
-var config = {
-  apiKey: "AIzaSyBILkmpZvmPnsRL6zirAGAz48uUgrmitsE",
-  authDomain: "passengerapp-204806.firebaseapp.com",
-  databaseURL: "https://passengerapp-204806.firebaseio.com",
-  projectId: "passengerapp-204806",
-  storageBucket: "passengerapp-204806.appspot.com",
-  messagingSenderId: "210877301914"
-};
+import { AuthService } from '../providers/passenger-app/authService';
+
+
 
 @Component({
   templateUrl: 'app.html'
@@ -24,7 +18,15 @@ var config = {
 export class MyApp {
   rootPage:any;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+  userDetails:any;
+  responseData:any;
+
+  userPostData = {
+    "email":"",
+    "name":""
+  }
+
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public authService:AuthService) {
     platform.ready().then(() => {
 
       // Okay, so the platform is ready and our plugins are available.
@@ -33,13 +35,17 @@ export class MyApp {
       splashScreen.hide();
     });
     // login checker
-    firebase.initializeApp(config);
-    firebase.auth().onAuthStateChanged((user) =>{
-      if (user) {
-        this.rootPage = TabsPage;
-      } else {
+    const data = JSON.parse(localStorage.getItem('account'));
+    console.log("[DATA]",data);
+    if(data){
+      this.userDetails = data.account;
+      
+      this.userPostData.email = this.userDetails.email;
+      this.userPostData.name = this.userDetails.name;
+      this.rootPage = TabsPage;
+    } else {
         this.rootPage = LoginPage;
-      }
-    });
+    }
+    
   }
 }
