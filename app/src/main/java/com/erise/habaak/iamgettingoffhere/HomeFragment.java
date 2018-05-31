@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.StringTokenizer;
 
 
 /**
@@ -242,6 +243,7 @@ public class HomeFragment extends Fragment {
             // After Connected ...
             try {
                 new Receiver(socket).start();
+                client.sendMsg("client conn");
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -313,6 +315,16 @@ public class HomeFragment extends Fragment {
 
                         String str = dis.readUTF();
                         Log.d("[Client App]",str);
+                        StringTokenizer st = new StringTokenizer(str, " ");
+                        String[] tokenBox = new String[10];
+                        for( int x = 0; st.hasMoreElements(); x++ ){
+                            //Log.i("[Token]" , x + " : " + st.nextToken() );
+                            tokenBox[x]=st.nextToken();
+                            Log.i("[Receive MSG array]",tokenBox[x]);
+                        }
+                        if(tokenBox[0].equals("info")){
+                            //setBusAndDriverInfo(tokenBox[1],tokenBox[2],tokenBox[3]);
+                        }
                     }
                 } catch (Exception e) {
                     Log.d("[Client App]","Server Closed");
