@@ -175,6 +175,12 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    public void setBusAndDriverInfo(String busNum, String platenum, String drivername){
+        tvBusNum.setText(busNum);
+        tvCarRegNum.setText(platenum);
+        tvDrivaerName.setText(drivername);
+    }
+
     /*@Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -213,7 +219,7 @@ public class HomeFragment extends Fragment {
 
         boolean flag = true;
         boolean cflag = true;
-        String address = "192.168.0.31";
+        String address = "192.168.1.16";
         Socket socket;
 
         public Client() throws UnknownHostException, IOException {
@@ -323,7 +329,7 @@ public class HomeFragment extends Fragment {
                             Log.i("[Receive MSG array]",tokenBox[x]);
                         }
                         if(tokenBox[0].equals("info")){
-                            //setBusAndDriverInfo(tokenBox[1],tokenBox[2],tokenBox[3]);
+                            setBusAndDriverInfo(tokenBox[1],tokenBox[2],tokenBox[3]);
                         }
                     }
                 } catch (Exception e) {
